@@ -25,6 +25,30 @@ jobs:
           echo "::set-output name=ios_update_uri::$ios_update_uri"
           echo "::set-output name=android_update_uri::$android_update_uri"
 
+      - name: Generate iOS QR Code
+        uses: snow-actions/qrcode@v1.0.0
+        with:
+          text: ${{ steps.publish-update.outputs.ios_update_uri }}
+          path: ios_uri_qrcode.png
+
+      - name: Generate Android QR Code
+        uses: snow-actions/qrcode@v1.0.0
+        with:
+          text: ${{ steps.publish-update.outputs.android_update_uri }}
+          path: android_uri_qrcode.png
+
+      - name: Upload iOS QR Code
+        uses: actions/upload-artifact@v1
+        with:
+          name: ios_uri_qrcode
+          path: ios_uri_qrcode.png
+
+      - name: Upload Android QR Code
+        uses: actions/upload-artifact@v1
+        with:
+          name: android_uri_qrcode
+          path: android_uri_qrcode.png
+
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
