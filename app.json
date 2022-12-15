@@ -12,7 +12,8 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/1b523228-d449-4dad-b44f-d1c88b7b5fcb"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -34,6 +35,9 @@
         "projectId": "1b523228-d449-4dad-b44f-d1c88b7b5fcb"
       }
     },
-    "owner": "mojavad"
+    "owner": "mojavad",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    }
   }
 }

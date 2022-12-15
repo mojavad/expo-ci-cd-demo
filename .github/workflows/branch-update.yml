@@ -1,8 +1,7 @@
 name: update for specific branch
 on:
-  push:
-    branches-ignore:
-      - main
+  pull_request:
+    types: [opened, reopened, synchronize]
 
 jobs:
   update:
@@ -17,10 +16,26 @@ jobs:
         with:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-
       - name: Publish update
-        run: eas update --branch ${{ steps.extract_branch.outputs.branch }} --auto
+        id: publish-update
+        run: |
+          update_output=$(eas update --branch ${{ github.head_ref }} --auto --non-interactive --json)
+          ios_update_id=$(echo "$update_output" | jq -r '.[] | select(.platform == "ios") | .id ')
+          ios_update_uri=$(echo "$update_output" | jq -r '.[] | select(.platform == "ios") | .manifestPermalink ')
+          android_update_id=$(echo "$update_output" | jq -r '.[] | select(.platform == "android") | .id ')
+          android_update_uri=$(echo "$update_output" | jq -r '.[] | select(.platform == "android") | .manifestPermalink ')
+          echo "::set-output name=ios_update_id::$ios_update_id"
+          echo "::set-output name=ios_update_uri::$ios_update_uri"
+          echo "::set-output name=android_update_id::$android_update_id"
+          echo "::set-output name=android_update_uri::$android_update_uri"
+
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            :rocket: Published to Expo Preview Branch: `${{github.head_ref}}`:
+
+            | Platform         | Deployment  |
+            | ---------------- | ----------- |
+            | iOS :apple:      | <img src="https://qr.expo.dev/eas-update?updateId=${{ steps.publish-update.outputs.ios_update_id }}&appScheme=exp&host=u.expo.dev" width="30%"/><br/><details><summary>Expand for link</summary><br /><a href="${{ steps.publish-update.outputs.ios_update_uri }}">${{ steps.publish-update.outputs.ios_update_uri }}</a></details>       |
+            | Android :robot:  | <img src="https://qr.expo.dev/eas-update?updateId=${{ steps.publish-update.outputs.android_update_id }}&appScheme=exp&host=u.expo.dev" width="30%"/><br/><details><summary>Expand for link</summary><br /><a href="${{ steps.publish-update.outputs.android_update_uri }}">${{ steps.publish-update.outputs.android_update_uri }}</a></details>        |
