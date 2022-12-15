@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "ci-pipeline-demo",
-    "slug": "ci-pipeline-demo",
+    "slug": "ci-cd-demo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,6 +28,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1b523228-d449-4dad-b44f-d1c88b7b5fcb"
+      }
+    },
+    "owner": "mojavad"
   }
 }
