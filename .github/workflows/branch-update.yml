@@ -19,9 +19,9 @@ jobs:
       - name: Publish update
         id: publish-update
         run: |
-          update_output = $(eas update --branch ${{ github.head_ref }} --auto --non-interactive --json)
-          ios_update_uri = $($update_output | jq '.[] | select(.platform == "ios") | .manifestPermalink ')
-          android_update_uri = $($update_output | jq '.[] | select(.platform == "android") | .manifestPermalink ')
+          update_output=$(eas update --branch ${{ github.head_ref }} --auto --non-interactive --json)
+          ios_update_uri=$(echo "$update_output" | jq '.[] | select(.platform == "ios") | .manifestPermalink ')
+          android_update_uri=$(echo "$update_output" | jq '.[] | select(.platform == "android") | .manifestPermalink ')
           echo "::set-output name=ios_update_uri::$ios_update_uri"
           echo "::set-output name=android_update_uri::$android_update_uri"
 
