@@ -20,39 +20,21 @@ jobs:
         id: publish-update
         run: |
           update_output=$(eas update --branch ${{ github.head_ref }} --auto --non-interactive --json)
+          ios_update_id=$(echo "$update_output" | jq -r '.[] | select(.platform == "ios") | .id ')
           ios_update_uri=$(echo "$update_output" | jq -r '.[] | select(.platform == "ios") | .manifestPermalink ')
+          android_update_id=$(echo "$update_output" | jq -r '.[] | select(.platform == "android") | .id ')
           android_update_uri=$(echo "$update_output" | jq -r '.[] | select(.platform == "android") | .manifestPermalink ')
+          echo "::set-output name=ios_update_id::$ios_update_id"
           echo "::set-output name=ios_update_uri::$ios_update_uri"
+          echo "::set-output name=android_update_id::$android_update_id"
           echo "::set-output name=android_update_uri::$android_update_uri"
-
-      - name: Generate iOS QR Code
-        uses: snow-actions/qrcode@v1.0.0
-        with:
-          text: ${{ steps.publish-update.outputs.ios_update_uri }}
-          path: ios_uri_qrcode.png
-
-      - name: Generate Android QR Code
-        uses: snow-actions/qrcode@v1.0.0
-        with:
-          text: ${{ steps.publish-update.outputs.android_update_uri }}
-          path: android_uri_qrcode.png
-
-      - name: Upload iOS QR Code
-        uses: actions/upload-artifact@v1
-        with:
-          name: ios_uri_qrcode
-          path: ios_uri_qrcode.png
-
-      - name: Upload Android QR Code
-        uses: actions/upload-artifact@v1
-        with:
-          name: android_uri_qrcode
-          path: android_uri_qrcode.png
 
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
             :rocket: Published to Expo Preview Branch: `${{github.head_ref}}`
+            ![iOS QR Code](https://qr.expo.dev/eas-update?updateId=${{ steps.publish-update.outputs.ios_update_id }}&appScheme=exp&host=u.expo.dev)
             Your iOS link is: ${{ steps.publish-update.outputs.ios_update_uri }} :apple:
+            ![Android QR Code](https://qr.expo.dev/eas-update?updateId=${{ steps.publish-update.outputs.android_update_id }}&appScheme=exp&host=u.expo.dev)
             Your Android link is: ${{ steps.publish-update.outputs.android_update_uri }} :robot:
