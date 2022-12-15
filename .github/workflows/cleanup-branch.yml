@@ -17,4 +17,4 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
       - name: Publish update
-        run: eas branch:delete ${{ github.head_ref }}
+        run: eas channel:delete ${{ github.head_ref }} && eas branch:delete ${{ github.head_ref }}
