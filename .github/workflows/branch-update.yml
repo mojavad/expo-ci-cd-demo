@@ -33,8 +33,9 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            :rocket: Published to Expo Preview Branch: `${{github.head_ref}}`
-            ![iOS QR Code](https://qr.expo.dev/eas-update?updateId=${{ steps.publish-update.outputs.ios_update_id }}&appScheme=exp&host=u.expo.dev)
-            Your iOS link is: ${{ steps.publish-update.outputs.ios_update_uri }} :apple:
-            ![Android QR Code](https://qr.expo.dev/eas-update?updateId=${{ steps.publish-update.outputs.android_update_id }}&appScheme=exp&host=u.expo.dev)
-            Your Android link is: ${{ steps.publish-update.outputs.android_update_uri }} :robot:
+            :rocket: Published to Expo Preview Branch: `${{github.head_ref}}`:
+
+            | Platform         | Deployment  |
+            | ---------------- | ----------- |
+            | iOS :apple:      | <img src="https://qr.expo.dev/eas-update?updateId=${{ steps.publish-update.outputs.ios_update_id }}&appScheme=exp&host=u.expo.dev)" width="200"/><br/><details><summary>Expand for link</summary>\n${{ steps.publish-update.outputs.ios_update_uri }}</details>       |
+            | Android :robot:  | <img src="https://qr.expo.dev/eas-update?updateId=${{ steps.publish-update.outputs.android_update_id }}&appScheme=exp&host=u.expo.dev)" width="200"/><br/><details><summary>Expand for link</summary>\n${{ steps.publish-update.outputs.android_update_uri }}</details>        |
