@@ -16,10 +16,5 @@ jobs:
         with:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-
       - name: Publish update
-        run: eas branch:delete ${{ steps.extract_branch.outputs.branch }}
+        run: eas branch:delete ${{ github.head_ref }}
