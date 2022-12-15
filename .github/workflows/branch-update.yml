@@ -37,5 +37,5 @@ jobs:
 
             | Platform         | Deployment  |
             | ---------------- | ----------- |
-            | iOS :apple:      | <img src="https://qr.expo.dev/eas-update?updateId=${{ steps.publish-update.outputs.ios_update_id }}&appScheme=exp&host=u.expo.dev)" width="200"/><br/><details><summary>Expand for link</summary>\n${{ steps.publish-update.outputs.ios_update_uri }}</details>       |
-            | Android :robot:  | <img src="https://qr.expo.dev/eas-update?updateId=${{ steps.publish-update.outputs.android_update_id }}&appScheme=exp&host=u.expo.dev)" width="200"/><br/><details><summary>Expand for link</summary>\n${{ steps.publish-update.outputs.android_update_uri }}</details>        |
+            | iOS :apple:      | <img src="https://qr.expo.dev/eas-update?updateId=${{ steps.publish-update.outputs.ios_update_id }}&appScheme=exp&host=u.expo.dev" width="200"/><br/><details><summary>Expand for link</summary><br /><a href="${{ steps.publish-update.outputs.ios_update_uri }}">${{ steps.publish-update.outputs.ios_update_uri }}</a></details>       |
+            | Android :robot:  | <img src="https://qr.expo.dev/eas-update?updateId=${{ steps.publish-update.outputs.android_update_id }}&appScheme=exp&host=u.expo.dev" width="200"/><br/><details><summary>Expand for link</summary><br /><a href="${{ steps.publish-update.outputs.android_update_uri }}">${{ steps.publish-update.outputs.android_update_uri }}</a></details>        |
