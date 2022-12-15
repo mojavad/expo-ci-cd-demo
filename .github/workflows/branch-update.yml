@@ -1,8 +1,7 @@
 name: update for specific branch
 on:
-  push:
-    branches-ignore:
-      - main
+  pull_request:
+    types: [opened, reopened, synchronize]
 
 jobs:
   update:
@@ -17,10 +16,5 @@ jobs:
         with:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-
       - name: Publish update
-        run: eas update --branch ${{ steps.extract_branch.outputs.branch }} --auto
+        run: eas update --branch ${{ github.head_ref }} --auto
