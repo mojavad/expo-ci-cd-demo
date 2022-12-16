@@ -20,6 +20,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   newTextColor: {
-    color: "red",
+    color: "orange",
   },
 });
