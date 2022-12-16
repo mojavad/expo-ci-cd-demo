@@ -30,8 +30,9 @@ jobs:
           echo "::set-output name=android_update_uri::$android_update_uri"
 
       - name: Comment PR
-        uses: thollander/actions-comment-pull-request@v2
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
+          recreate: true
           message: |
             :rocket: Published to Expo Preview Branch: `${{github.head_ref}}`:
 
