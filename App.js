@@ -7,6 +7,7 @@ export default function App() {
       <Text style={styles.newTextColor}>
         Open up App.js to start working on your app!
       </Text>
+      <Text>I'm just going to add some more text here!</Text>
       <StatusBar style="auto" />
     </View>
   );
